@@ -1,5 +1,11 @@
 # autotyper
 
+[![Download autotyper.exe](https://img.shields.io/badge/Download-autotyper.exe-2ea44f?logo=windows&logoColor=white)](https://github.com/arglampedakis/auto_typer/releases/latest/download/autotyper.exe)
+[![Latest release](https://img.shields.io/github/v/release/arglampedakis/auto_typer)](https://github.com/arglampedakis/auto_typer/releases/latest)
+[![Build](https://github.com/arglampedakis/auto_typer/actions/workflows/build.yml/badge.svg)](https://github.com/arglampedakis/auto_typer/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![Platform: Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
+
 A Windows clipboard auto-typer that types your clipboard into the focused
 window character-by-character, producing **byte-for-byte identical** output
 even in editors with auto-indent, auto-closing brackets/quotes, and
