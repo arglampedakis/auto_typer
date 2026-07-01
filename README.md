@@ -5,6 +5,8 @@ window character-by-character, producing **byte-for-byte identical** output
 even in editors with auto-indent, auto-closing brackets/quotes, and
 reindent-on-type (VS Code, IntelliJ, JSON editors, ...).
 
+![autotyper running in a console window](docs/autotyper-console.png)
+
 ## Usage
 
 **Option A — standalone .exe (no Python needed):** double-click **`build.bat`**
