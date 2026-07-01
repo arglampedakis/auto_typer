@@ -1,0 +1,5 @@
+# Runtime: NONE. autotyper.py uses only the Python standard library
+# (ctypes + Win32), so `python autotyper.py` needs nothing installed.
+#
+# Build only (to produce the standalone .exe via build.bat):
+pyinstaller>=6.0

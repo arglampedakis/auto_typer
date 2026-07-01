@@ -1,0 +1,4 @@
+# Normalize line endings; keep Windows batch files CRLF.
+* text=auto
+*.bat text eol=crlf
+*.py text eol=lf

@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# PyInstaller build output (rebuild with build.bat; ship the exe via Releases)
+build/
+dist/
+*.spec
+
+# Editor / OS cruft
+.claude/
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini
