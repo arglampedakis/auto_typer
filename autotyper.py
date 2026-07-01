@@ -52,6 +52,7 @@ Tested on Windows 11 with byte-for-byte identical results against VS Code
 (Monaco), Notepad++, and the new Windows Notepad - see the project notes.
 """
 
+import argparse
 import ctypes
 import sys
 import time
@@ -433,12 +434,67 @@ def do_type():
     print(f"[+] Done. Waiting for the next {HOTKEY.upper()} (Ctrl+C to quit).")
 
 
+# Selectable typing modes. Each maps to (newline_mode, neutralize):
+#   None means "auto-detect that setting from the focused window".
+MODES = {
+    "auto":  (None,   None,  "Auto-detect per window (best when running on the same PC as the editor)"),
+    "npp":   ("char", True,  "Notepad++  (also when it is shown through a Remote / Virtual Desktop)"),
+    "ide":   ("vk",   True,  "VS Code / IDE (Monaco-based editors)"),
+    "plain": ("vk",   False, "Plain editor (Windows Notepad, simple text fields)"),
+}
+_MODE_ORDER = ["auto", "npp", "ide", "plain"]
+
+
+def apply_mode(key):
+    """Lock the newline/neutralize behaviour to the chosen mode."""
+    global NEWLINE_MODE, NEUTRALIZE
+    NEWLINE_MODE, NEUTRALIZE, _ = MODES[key]
+
+
+def choose_mode_interactively():
+    """Ask the user to pick a mode at startup (Enter = auto)."""
+    print("Select typing mode - press Enter for the default:")
+    for i, key in enumerate(_MODE_ORDER, 1):
+        star = "  (default)" if key == "auto" else ""
+        print(f"  [{i}] {MODES[key][2]}{star}")
+    print("  Tip: for Notepad++ inside a Remote/Virtual Desktop, choose [2].")
+    try:
+        raw = input("Choice [1]: ").strip().lower()
+    except EOFError:
+        raw = ""
+    if not raw:
+        return "auto"
+    if raw.isdigit() and 1 <= int(raw) <= len(_MODE_ORDER):
+        return _MODE_ORDER[int(raw) - 1]
+    if raw in MODES:
+        return raw
+    print(f"  Unrecognised choice {raw!r}; using auto-detect.")
+    return "auto"
+
+
 def main():
+    parser = argparse.ArgumentParser(
+        prog="autotyper",
+        description="Type the clipboard into the focused window as real keystrokes "
+                    "(byte-for-byte, smart-editor safe).")
+    parser.add_argument(
+        "--mode", choices=list(MODES),
+        help="typing mode: " +
+             "; ".join(f"{k} = {MODES[k][2]}" for k in _MODE_ORDER) +
+             ". Omit to choose interactively at startup.")
+    args = parser.parse_args()
+
     print("=" * 64)
     print("  autotyper - clipboard -> keystrokes (smart-editor safe)")
     print("=" * 64)
+
+    mode = args.mode or choose_mode_interactively()
+    apply_mode(mode)
+
+    print("-" * 64)
     print(f"  Hotkey      : {HOTKEY.upper()}  (global)")
     print(f"  Countdown   : {COUNTDOWN_SECONDS}s before typing")
+    print(f"  Mode        : {mode} - {MODES[mode][2]}")
     print("  Quit        : Ctrl+C (or close this window)")
     print("-" * 64)
 

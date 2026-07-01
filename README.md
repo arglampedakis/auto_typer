@@ -22,11 +22,39 @@ python autotyper.py
 
 Either way:
 
-1. Copy the text you want (it goes to the Windows clipboard).
-2. Press **Ctrl+Shift+Z** (works even when the console isn't focused).
-3. A `3... 2... 1...` countdown runs — click into your target window.
-4. The clipboard is typed in. When it finishes, it listens again.
-5. Press **Ctrl+C** in the console to quit.
+1. On launch it asks you to **pick a typing mode** (press Enter for
+   auto-detect). See [Typing modes](#typing-modes) — this matters when the
+   target is inside a Remote/Virtual Desktop.
+2. Copy the text you want (it goes to the Windows clipboard).
+3. Press **Ctrl+Shift+Z** (works even when the console isn't focused).
+4. A `3... 2... 1...` countdown runs — click into your target window.
+5. The clipboard is typed in. When it finishes, it listens again.
+6. Press **Ctrl+C** in the console to quit.
+
+### Typing modes
+
+Different editors need slightly different keystrokes. At startup you choose:
+
+| # | Mode | Use for |
+|---|---|---|
+| 1 | **auto** (default) | Auto-detect per window — best when autotyper runs on the **same PC** as the editor. |
+| 2 | **npp** | **Notepad++**, including when it's shown through a **Remote / Virtual Desktop** (RDP/Citrix/VMware). |
+| 3 | **ide** | VS Code and other Monaco-based IDEs. |
+| 4 | **plain** | Windows Notepad and simple text fields. |
+
+Skip the menu by passing the mode on the command line:
+```
+autotyper.exe --mode npp      # or: python autotyper.py --mode npp
+```
+
+**Why the mode matters for Remote/Virtual Desktops:** auto-detect inspects the
+focused window. When you type into a remote-desktop client (RDP/Citrix/VMware),
+the focused window is the *client*, not the editor inside it — so autotyper
+can't tell it's Notepad++ and falls back to a mode whose Enter key the remote
+Notepad++ autocomplete "eats" (dropping lines). Picking **npp** forces the
+Unicode-newline path that the autocomplete can't intercept, so it works through
+the remote session. (Alternatively, run `autotyper.exe` *inside* the virtual
+desktop, where auto-detect works normally.)
 
 ## Standalone .exe (no Python needed)
 
