@@ -28,7 +28,13 @@ Either way:
 
 ## Standalone .exe (no Python needed)
 
-To get a single plug-and-play executable you can copy to any Windows PC:
+**Download a prebuilt exe (no build needed):** every push is built on GitHub
+Actions. Grab `autotyper.exe` from the **Actions** tab → latest `build` run →
+*Artifacts*, or from a tagged **Release**. See
+[Automated builds](#automated-builds-github-actions) below.
+
+**Build it yourself** — a single plug-and-play executable you can copy to any
+Windows PC:
 
 1. Double-click **`build.bat`** (or run it from a terminal). It installs
    PyInstaller if needed and builds the exe.
@@ -42,6 +48,18 @@ Manual build command (equivalent to `build.bat`):
 ```
 pyinstaller --onefile --console --name autotyper autotyper.py
 ```
+
+### Automated builds (GitHub Actions)
+
+`.github/workflows/build.yml` builds the exe on a Windows runner:
+
+- **Every push / pull request** → the exe is uploaded as a downloadable
+  artifact (Actions tab → the run → *Artifacts* → `autotyper-exe`).
+- **Push a version tag** → a GitHub Release is created with the exe attached:
+  ```
+  git tag v1.0.0
+  git push origin v1.0.0
+  ```
 
 ### Antivirus
 
