@@ -185,4 +185,4 @@ needed to run `autotyper.py`; PyInstaller is only needed to build the `.exe`.
 
 ## License
 
-[MIT](LICENSE) © 2026 aglampedakis
+[MIT](LICENSE) © 2026 arglampedakis
